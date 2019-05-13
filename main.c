@@ -1,63 +1,72 @@
-#include <stdio.h>
+##include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
 
 struct cellule{
-    int info;
-    struct cellule *next;
+    char info;
+    struct cellule *suivant;
 };
-void listeT(struct cellule *n);
-void ecrit(struct cellule *n);
- void ecrit2(struct cellule *n);
+typedef struct cellule * cellule;
 
-
+cellule creeList(int taille);
+void afficher(cellule liste);
+void ecrit_one(cellule liste);
+void ecrit_two(cellule liste);
 
 int main()
 {
-    int a,b,c ;
+    int t; cellule lister;
 
-struct cellule * liste1=NULL;
-struct cellule * liste2=NULL;
-struct cellule * liste3=NULL;
+    printf("Salut !! \n Votre liste chainnee est de type entier \n !\n");
+    printf("Le Taille du tableau: ");
+    scanf("%d",&t);
+    lister=creeList(t);
 
-liste1=(struct cellule*)malloc(sizeof(struct cellule));
-liste2=(struct cellule*)malloc(sizeof(struct cellule));
-liste3=(struct cellule*)malloc(sizeof(struct cellule));
+        printf("Les contenus de notre liste chainee:\n");
+        afficher(lister);
 
-liste1->info=1;
-liste1->next=liste2;
+            printf("\nRestat apres la fonction ecritlire1:\n");
+            ecrit_one(lister);
 
-liste2->info=2;
-liste2->next=liste3;
-
-liste3->info=3;
-liste3->next=NULL;
-listeT(liste1);
-
-ecrit(liste1);
-printf("\n");
-ecrit2(liste1);
-return 1;
+            printf("\nResultat apres la fonction ecritlire2:\n");
+            ecrit_two(lister);
+    return 0;
 }
-void listeT(struct cellule *n){
-    while(n!=NULL){
-        printf("%d\t",n->info);
-        n=n->next;
+
+cellule creeList(int taille){
+    cellule liste,fin; fin=NULL; int i=0;char val;
+
+        while(i<taille){
+             liste=(cellule)malloc(sizeof(struct cellule));
+             printf("Donnee %d:  ",i+1);
+             val=getc(stdin);   //scanf("%c",&val);
+             liste->info=val;
+             liste->suivant=fin;
+             fin=liste;
+             i++;
+        }
+    return liste;
+}
+
+void afficher(cellule liste){
+    while(liste!=NULL){
+        printf("%c\t",liste->info);
+        liste=liste->suivant;
         printf("\n");
     }
 }
-void ecrit(struct cellule *n){
-    if(n!=NULL){
-        ecrit(n->next);
-        printf("%d",n->info);
-        ecrit(n->next);
+
+void ecrit_one(cellule liste){
+    if(liste != NULL){
+        printf("%c",liste->info);
+        ecrit_one(liste->suivant);
+        printf("%c",liste->info);
     }
 }
 
-    void ecrit2(struct cellule *n){
-    if(n!=NULL){
-        printf("%d",n->info);
-        ecrit2(n->next);
-        printf("%d",n->info);
+void ecrit_two(cellule liste){
+    if(liste != NULL){
+        ecrit_two(liste->suivant);
+        printf("%c",liste->info);
+        ecrit_two(liste->suivant);
     }
 }
